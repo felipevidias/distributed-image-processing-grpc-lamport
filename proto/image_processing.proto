@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+// Trabalho Prático - Computação Distribuída
+// Sistema distribuído de processamento de imagens com gRPC e relógio lógico de Lamport.
+
+service CoordinatorService {
+  rpc ProcessImage (ImageRequest) returns (ImageReply);
+}
+
+service WorkerService {
+  rpc ProcessBlock (BlockRequest) returns (BlockReply);
+}
+
+message ImageRequest {
+  string filename = 1;
+  bytes image_data = 2;
+  string operation = 3;
+  int32 lamport_time = 4;
+}
+
+message ImageReply {
+  string message = 1;
+  bytes image_data = 2;
+  int32 lamport_time = 3;
+}
+
+message BlockRequest {
+  int32 block_id = 1;
+  int32 width = 2;
+  int32 height = 3;
+  bytes image_data = 4;
+  string operation = 5;
+  int32 lamport_time = 6;
+}
+
+message BlockReply {
+  int32 block_id = 1;
+  int32 width = 2;
+  int32 height = 3;
+  bytes image_data = 4;
+  string worker_id = 5;
+  int32 lamport_time = 6;
+}
