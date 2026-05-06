@@ -11,13 +11,12 @@ This project was developed as part of the first assignment for the **Distributed
 - [Overview](#overview)
 - [Main Features](#main-features)
 - [Distributed Computing Concepts](#distributed-computing-concepts)
-- [Distributed Computing Requirements](#distributed-computing-requirements)
 - [System Architecture](#system-architecture)
 - [Communication Flow](#communication-flow)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
 - [Requirements](#requirements)
-- [Installation on Windows](#installation-on-windows)
+- [Installation](#installation)
 - [Generating gRPC Files](#generating-grpc-files)
 - [Creating a Test Image](#creating-a-test-image)
 - [Running the Distributed System](#running-the-distributed-system)
@@ -65,8 +64,8 @@ This makes the project useful for demonstrating basic distributed computing prin
 - Lamport logical clock implementation.
 - Console logs showing the logical order of distributed events.
 - Support for multiple image processing operations.
-- Simple preliminary test for worker unavailability.
-- Windows-compatible execution instructions.
+- Preliminary worker-unavailability test.
+- Cross-platform command style, with Unix-like commands as the main reference.
 
 ---
 
@@ -210,7 +209,7 @@ The execution follows this sequence:
 ## Project Structure
 
 ```text
-distributed-image-processing-grpc-lamport/
+entrega1_sistema_distribuido/
 │
 ├── proto/
 │   └── image_processing.proto
@@ -263,7 +262,7 @@ distributed-image-processing-grpc-lamport/
 - Protocol Buffers
 - Pillow
 - Lamport logical clocks
-- PowerShell / Windows terminal
+- Terminal / Shell
 
 ---
 
@@ -271,64 +270,92 @@ distributed-image-processing-grpc-lamport/
 
 Before running the project, make sure you have:
 
-- Windows 10 or Windows 11;
-- Python installed;
-- Git installed, if you want to clone or push the project;
-- Internet connection for installing Python dependencies.
+- Python 3 installed;
+- `pip` installed;
+- Git installed, if you want to clone or push the repository;
+- Internet connection for installing dependencies.
 
 Check Python:
 
-```powershell
+```bash
 python --version
+```
+
+or, depending on your operating system:
+
+```bash
+python3 --version
 ```
 
 Check Git:
 
-```powershell
+```bash
 git --version
 ```
 
 ---
 
-## Installation on Windows
+## Installation
 
-### 1. Open PowerShell
+### 1. Clone the repository
 
-Open PowerShell and enter the project directory:
-
-```powershell
-cd "C:\Users\USER\PUC\2026-1_6P\COMP_DISTRIBUIDA\entrega1_sistema_distribuido"
+```bash
+git clone https://github.com/felipevidias/distributed-image-processing-grpc-lamport.git
 ```
 
-### 2. Create a virtual environment
+### 2. Enter the project folder
 
-```powershell
+```bash
+cd distributed-image-processing-grpc-lamport
+```
+
+If you are using the local folder provided for the assignment, enter it directly:
+
+```bash
+cd entrega1_sistema_distribuido
+```
+
+### 3. Create a virtual environment
+
+```bash
 python -m venv venv
 ```
 
-### 3. Allow script execution for the current PowerShell session
+If your system uses `python3` instead of `python`, run:
 
-PowerShell may block virtual environment activation. To allow it only for the current session, run:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```bash
+python3 -m venv venv
 ```
 
 ### 4. Activate the virtual environment
 
-```powershell
-.\venv\Scripts\Activate.ps1
+On Linux or macOS:
+
+```bash
+source venv/bin/activate
 ```
 
-After activation, the terminal should look like this:
+On Windows using Command Prompt:
 
-```powershell
-(venv) PS C:\Users\USER\PUC\2026-1_6P\COMP_DISTRIBUIDA\entrega1_sistema_distribuido>
+```bat
+venv\Scripts\activate
+```
+
+On Windows using Git Bash:
+
+```bash
+source venv/Scripts/activate
+```
+
+After activation, the terminal should show something similar to:
+
+```text
+(venv) user@machine:~/distributed-image-processing-grpc-lamport$
 ```
 
 ### 5. Install dependencies
 
-```powershell
+```bash
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
@@ -341,7 +368,7 @@ The gRPC Python files must be generated from the `.proto` file.
 
 Run:
 
-```powershell
+```bash
 python -m grpc_tools.protoc -Iproto --python_out=. --grpc_python_out=. proto/image_processing.proto
 ```
 
@@ -360,27 +387,27 @@ These files are automatically generated and are required by the client, coordina
 
 To create a sample image for testing, run:
 
-```powershell
+```bash
 python tools/create_test_image.py
 ```
 
 Expected output in the terminal:
 
 ```text
-Imagem de teste criada em: images\entrada.png
+Imagem de teste criada em: images/entrada.png
 ```
 
 Expected file:
 
 ```text
-images\entrada.png
+images/entrada.png
 ```
 
 ---
 
 ## Running the Distributed System
 
-The system must be executed in **four different PowerShell terminals**:
+The system must be executed in **four different terminals**:
 
 ```text
 Terminal 1: Worker 1
@@ -389,19 +416,25 @@ Terminal 3: Coordinator
 Terminal 4: Client
 ```
 
-In each terminal, first enter the project folder and activate the virtual environment:
+In each terminal, enter the project folder and activate the virtual environment:
 
-```powershell
-cd "C:\Users\USER\PUC\2026-1_6P\COMP_DISTRIBUIDA\entrega1_sistema_distribuido"
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\venv\Scripts\Activate.ps1
+```bash
+cd distributed-image-processing-grpc-lamport
+source venv/bin/activate
+```
+
+If you are using the assignment folder name:
+
+```bash
+cd entrega1_sistema_distribuido
+source venv/bin/activate
 ```
 
 ---
 
 ### Terminal 1 — Start Worker 1
 
-```powershell
+```bash
 python worker_server.py --port 50061 --id worker1
 ```
 
@@ -417,7 +450,7 @@ Keep this terminal open.
 
 ### Terminal 2 — Start Worker 2
 
-```powershell
+```bash
 python worker_server.py --port 50062 --id worker2
 ```
 
@@ -433,7 +466,7 @@ Keep this terminal open.
 
 ### Terminal 3 — Start Coordinator
 
-```powershell
+```bash
 python coordinator_server.py --port 50050 --workers localhost:50061,localhost:50062
 ```
 
@@ -454,26 +487,26 @@ Run one of the following commands.
 
 #### Grayscale
 
-```powershell
-python client.py --image images\entrada.png --operation grayscale --output results\saida_grayscale.png
+```bash
+python client.py --image images/entrada.png --operation grayscale --output results/saida_grayscale.png
 ```
 
 #### Invert colors
 
-```powershell
-python client.py --image images\entrada.png --operation invert --output results\saida_invert.png
+```bash
+python client.py --image images/entrada.png --operation invert --output results/saida_invert.png
 ```
 
 #### Blur
 
-```powershell
-python client.py --image images\entrada.png --operation blur --output results\saida_blur.png
+```bash
+python client.py --image images/entrada.png --operation blur --output results/saida_blur.png
 ```
 
 #### Edge detection
 
-```powershell
-python client.py --image images\entrada.png --operation edges --output results\saida_edges.png
+```bash
+python client.py --image images/entrada.png --operation edges --output results/saida_edges.png
 ```
 
 ---
@@ -482,10 +515,10 @@ python client.py --image images\entrada.png --operation edges --output results\s
 
 | Operation | Description | Example Output |
 |---|---|---|
-| `grayscale` | Converts the image to grayscale | `results\saida_grayscale.png` |
-| `invert` | Inverts the image colors | `results\saida_invert.png` |
-| `blur` | Applies a blur filter | `results\saida_blur.png` |
-| `edges` | Applies edge detection | `results\saida_edges.png` |
+| `grayscale` | Converts the image to grayscale | `results/saida_grayscale.png` |
+| `invert` | Inverts the image colors | `results/saida_invert.png` |
+| `blur` | Applies a blur filter | `results/saida_blur.png` |
+| `edges` | Applies edge detection | `results/saida_edges.png` |
 
 ---
 
@@ -496,22 +529,28 @@ After running the client, the processed images will be saved in the `results` fo
 Expected files:
 
 ```text
-results\saida_grayscale.png
-results\saida_invert.png
-results\saida_blur.png
-results\saida_edges.png
+results/saida_grayscale.png
+results/saida_invert.png
+results/saida_blur.png
+results/saida_edges.png
 ```
 
-To check the folder from PowerShell:
+To check the folder:
 
-```powershell
-dir results
+```bash
+ls results
 ```
 
-To open the output folder:
+To open the output folder graphically on Linux, depending on your environment:
 
-```powershell
-explorer results
+```bash
+xdg-open results
+```
+
+On macOS:
+
+```bash
+open results
 ```
 
 ---
@@ -522,32 +561,32 @@ explorer results
 
 Worker 1:
 
-```powershell
+```bash
 python worker_server.py --port 50061 --id worker1
 ```
 
 Worker 2:
 
-```powershell
+```bash
 python worker_server.py --port 50062 --id worker2
 ```
 
 ### Step 2: Start the coordinator
 
-```powershell
+```bash
 python coordinator_server.py --port 50050 --workers localhost:50061,localhost:50062
 ```
 
 ### Step 3: Run the client
 
-```powershell
-python client.py --image images\entrada.png --operation grayscale --output results\saida_grayscale.png
+```bash
+python client.py --image images/entrada.png --operation grayscale --output results/saida_grayscale.png
 ```
 
 ### Step 4: Check the output
 
-```powershell
-dir results
+```bash
+ls results
 ```
 
 Expected result:
@@ -593,14 +632,14 @@ Although full fault tolerance is expected to be expanded in a later stage, this 
 
 Example:
 
-```powershell
-python client.py --image images\entrada.png --operation grayscale --output results\saida_failure_test.png
+```bash
+python client.py --image images/entrada.png --operation grayscale --output results/saida_failure_test.png
 ```
 
 Expected output:
 
 ```text
-results\saida_failure_test.png
+results/saida_failure_test.png
 ```
 
 If the system still processes the image using the available worker, this can be described as a preliminary test of worker unavailability.
@@ -609,34 +648,17 @@ If the system still processes the image using the available worker, this can be 
 
 ## Troubleshooting
 
-### Problem: PowerShell blocks virtual environment activation
-
-Error example:
-
-```text
-running scripts is disabled on this system
-```
-
-Solution:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\venv\Scripts\Activate.ps1
-```
-
----
-
 ### Problem: `pip` is not recognized
 
 Use:
 
-```powershell
+```bash
 python -m pip --version
 ```
 
 If needed:
 
-```powershell
+```bash
 python -m ensurepip --upgrade
 python -m pip install --upgrade pip
 ```
@@ -647,13 +669,13 @@ python -m pip install --upgrade pip
 
 Install dependencies again:
 
-```powershell
+```bash
 python -m pip install -r requirements.txt
 ```
 
 Or install gRPC tools manually:
 
-```powershell
+```bash
 python -m pip install grpcio grpcio-tools
 ```
 
@@ -663,7 +685,7 @@ python -m pip install grpcio grpcio-tools
 
 Install Pillow:
 
-```powershell
+```bash
 python -m pip install pillow
 ```
 
@@ -698,13 +720,13 @@ Default ports:
 
 You can also change the ports manually:
 
-```powershell
+```bash
 python worker_server.py --port 50063 --id worker1
 ```
 
 Then start the coordinator with the updated worker port:
 
-```powershell
+```bash
 python coordinator_server.py --port 50050 --workers localhost:50063,localhost:50062
 ```
 
