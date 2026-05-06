@@ -210,7 +210,7 @@ The execution follows this sequence:
 ## Project Structure
 
 ```text
-entrega1_sistema_distribuido/
+distributed-image-processing-grpc-lamport/
 │
 ├── proto/
 │   └── image_processing.proto
